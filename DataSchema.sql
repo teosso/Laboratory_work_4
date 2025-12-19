@@ -5,7 +5,10 @@ CREATE TABLE users (
     user_name VARCHAR(50),
     role_name VARCHAR(20),
     CONSTRAINT users_pk PRIMARY KEY (user_id),
-    CONSTRAINT user_name_template CHECK (user_name ~ '^[A-ZА-Я][a-zа-яА-Яa-zA-Z ]+$')
+    -- Розбиваємо довгий рядок для лінтера
+    CONSTRAINT user_name_template CHECK (
+        user_name ~ '^[A-ZА-Я][a-zа-яА-Яa-zA-Z ]+$'
+    )
 );
 
 CREATE TABLE admins (
@@ -34,5 +37,9 @@ CREATE TABLE access_rights (
     action_rules VARCHAR(255),
     CONSTRAINT rights_pk PRIMARY KEY (right_id),
     CONSTRAINT rights_user_fk FOREIGN KEY (user_id) REFERENCES users (user_id),
-    CONSTRAINT action_rules_template CHECK (action_rules ~ '^(READ|WRITE|DELETE|CREATE)(, (READ|WRITE|DELETE|CREATE))*$')
+    -- Переносимо регулярний вираз на новий рядок
+    CONSTRAINT action_rules_template CHECK (
+        action_rules
+        ~ '^(READ|WRITE|DELETE|CREATE)(, (READ|WRITE|DELETE|CREATE))*$'
+    )
 );
