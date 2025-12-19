@@ -27,7 +27,9 @@ CREATE TABLE data_objects (
     data_content TEXT,
     created_at TIMESTAMP,
     CONSTRAINT data_objects_pk PRIMARY KEY (data_id),
-    CONSTRAINT data_creator_fk FOREIGN KEY (creator_id) REFERENCES users (user_id),
+    -- Розбиваємо рядок, який викликав помилку (було 83 символи)
+    CONSTRAINT data_creator_fk FOREIGN KEY (creator_id)
+        REFERENCES users (user_id),
     CONSTRAINT data_name_unique UNIQUE (data_name)
 );
 
