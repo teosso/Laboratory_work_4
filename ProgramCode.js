@@ -1,2 +1,2 @@
-const productName = 'Laboratory Work 4 Software'
-console.log(productName)
+const productName = "Laboratory Work 4 Software";
+console.log(productName);
