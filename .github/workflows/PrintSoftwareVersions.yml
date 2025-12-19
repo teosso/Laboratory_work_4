@@ -7,18 +7,13 @@ on:
       - main
 
 jobs:
-  # --- Робота 1: Рівень обробки даних (Backend) ---
   check-backend-version:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
-
       - name: Print Node.js and NPM versions
         run: |
           echo "--- Data Processing Level Software ---"
@@ -27,61 +22,13 @@ jobs:
           echo "NPM version:"
           npm --version
 
-  # --- Робота 2: Рівень доступу даних (Database) ---
   check-db-version:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      # Замість встановлення, ми використовуємо Docker. Це надійно.
-      # Ми качаємо контейнер mongo:6.0, запитуємо версію і видаляємо (--rm)
+      - uses: actions/checkout@v4
       - name: Print MongoDB version via Docker
         run: |
           echo "--- Data Access Level Software ---"
           echo "MongoDB version:"
-          docker run --rm mongo:6.0 mongod --version
-EOFcat <<EOF > .github/workflows/PrintSoftwareVersions.yml
-name: Print Software Versions
-
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-
-jobs:
-  # --- Робота 1: Рівень обробки даних (Backend) ---
-  check-backend-version:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Print Node.js and NPM versions
-        run: |
-          echo "--- Data Processing Level Software ---"
-          echo "Node.js version:"
-          node --version
-          echo "NPM version:"
-          npm --version
-
-  # --- Робота 2: Рівень доступу даних (Database) ---
-  check-db-version:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      # Замість встановлення, ми використовуємо Docker. Це надійно.
-      # Ми качаємо контейнер mongo:6.0, запитуємо версію і видаляємо (--rm)
-      - name: Print MongoDB version via Docker
-        run: |
-          echo "--- Data Access Level Software ---"
-          echo "MongoDB version:"
+          # Запускаємо Mongo через Docker на секунду, щоб дізнатися версію
           docker run --rm mongo:6.0 mongod --version
