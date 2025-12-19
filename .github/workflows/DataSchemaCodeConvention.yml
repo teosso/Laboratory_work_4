@@ -1,0 +1,26 @@
+name: Check SQL Code Convention
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint-sql:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install SQLFluff
+        run: pip install sqlfluff
+
+      - name: Lint DataSchema.sql
+        # Ми використовуємо діалект postgres, бо твій код містить специфічний синтаксис
+        run: sqlfluff lint DataSchema.sql --dialect postgres
