@@ -1,0 +1,44 @@
+name: Print Software Versions
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-backend-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Print Node.js and NPM versions
+        run: |
+          echo "--- Data Processing Level Software ---"
+          echo "Node.js version:"
+          node --version
+          echo "NPM version:"
+          npm --version
+
+  check-db-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Setup MongoDB
+        uses: supercharge/mongodb-github-action@1.10.0
+        with:
+          mongodb-version: '6.0'
+
+      - name: Print MongoDB version
+        run: |
+          echo "--- Data Access Level Software ---"
+          echo "MongoDB version:"
+          mongod --version
